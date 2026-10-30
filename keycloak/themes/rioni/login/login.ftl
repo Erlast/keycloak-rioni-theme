@@ -3,11 +3,6 @@
   <#if section = "scripts">
     <script type="module" src="${url.resourcesPath}/js/login.js"></script>
   </#if>
-  <#if message?has_content && message.type == 'error'>
-      <div class="alert alert-error">
-          ${message.summary}
-      </div>
-  </#if>
   <script id="environment" type="application/json">
       {
         "urls": {
@@ -79,10 +74,10 @@
           "password": <#if messagesPerField.existsError('password')>"${kcSanitize(messagesPerField.get('password'))?no_esc}"<#else>""</#if>,
           "passwordConfirm": <#if messagesPerField.existsError('password-confirm')>"${kcSanitize(messagesPerField.get('password-confirm'))?no_esc}"<#else>""</#if>
         },
-        "message": {
-          "type": "",
-          "sumary": ""
-        },
+       "message": {
+         "type": <#if message?has_content && message.type == 'error'>"${message.type}"<#else>""</#if>,
+         "summary": <#if message?has_content && message.type == 'error'>"${kcSanitize(message.summary)?no_esc}"<#else>""</#if>
+       },
         "realm": {
           "displayName": "${(realm.displayName!'')}"
         },

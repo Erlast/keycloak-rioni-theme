@@ -6,9 +6,12 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="robots" content="noindex, nofollow">
-    <#--  <title>${msg("loginTitle",(realm.displayName!''))}</title>  -->
-    <title>${(realm.displayName!'Личный кабинет')}</title>
+    <meta name="referrer" content="no-referrer" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
     
+    <title>${(realm.displayName!'Личный кабинет')}</title>
+ 
     <link rel="icon" href="${url.resourcesPath}/img/favicon32.png">
     <link rel="stylesheet" href="${url.resourcesPath}/css/default.css">
     <link rel="stylesheet" href="${url.resourcesPath}/css/style.css">
@@ -40,7 +43,7 @@
          src: url('${url.resourcesPath}/fonts/webfonts/PlusJakartaSans-SemiBold.woff2') format('woff2');
          font-style: normal;
          font-weight: 600;
-       } m,,
+       }
        
        @font-face {
          font-family: 'Plus Jakarta Sans';
@@ -61,9 +64,11 @@
         "loginResetCredentials": "${(url.loginResetCredentialsUrl)!''}",
           "login": "${(url.loginUrl)!''}",
           "registration": "${(url.registrationUrl)!''}",
-          "loginAction": "",
+        "loginAction": "",
           "registrationAction": "${(url.registrationAction)!''}",
-          "resourcesPath": "${(url.resourcesPath)!''}"
+          "resourcesPath": "${(url.resourcesPath)!''}",
+          "loginRestartUrl":"${(url.loginRestartFlowUrl)!''}",
+          "clientBaseUrl":<#if client?? && client.baseUrl?has_content>"${(client.baseUrl)!''}"<#else>""</#if>
       },
       "titles": {
         "loginProfileTitle": "${msg("loginProfileTitle")}",
@@ -128,18 +133,11 @@
       },
       "message": {
         "type": <#if displayMessage && message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>"${message.type}"<#else>""</#if>,
-        "sumary": <#if displayMessage && message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>"${kcSanitize(message.summary)?no_esc}"<#else>""</#if>
+        "summary": <#if displayMessage && message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>"${kcSanitize(message.summary)?no_esc}"<#else>""</#if>
       },
       "realm": {
         "displayName": "${(realm.displayName!'')}"
       },
-      <#--  "instruction": {
-        "emailLinkIdp1": "${msg("emailLinkIdp1", idpDisplayName, brokerContext.username, realm.displayName)}",
-        "emailLinkIdp2": "${msg("emailLinkIdp2")}",
-        "emailLinkIdp3": "${msg("emailLinkIdp3")}",
-        "emailLinkIdp4": "${msg("emailLinkIdp4")}",
-        "emailLinkIdp5": "${msg("emailLinkIdp5")}"
-      },  -->
       "social": ""
     }
   </script>
