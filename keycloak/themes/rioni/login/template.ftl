@@ -1,4 +1,5 @@
-<#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false showAnotherWayIfPresent=true>
+<#import "environment.ftl" as env>
+<#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false showAnotherWayIfPresent=true loginAction=true>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" class="${properties.kcHtmlClass!}">
 
@@ -58,89 +59,7 @@
 </head>
 <body>
   <div id="app"></div>
-  <script id="environment" type="application/json">
-    {
-      "urls": {
-        "loginResetCredentials": "${(url.loginResetCredentialsUrl)!''}",
-          "login": "${(url.loginUrl)!''}",
-          "registration": "${(url.registrationUrl)!''}",
-        "loginAction": "",
-          "registrationAction": "${(url.registrationAction)!''}",
-          "resourcesPath": "${(url.resourcesPath)!''}",
-          "loginRestartUrl":"${(url.loginRestartFlowUrl)!''}",
-          "clientBaseUrl":<#if client?? && client.baseUrl?has_content>"${(client.baseUrl)!''}"<#else>""</#if>
-      },
-      "titles": {
-        "loginProfileTitle": "${msg("loginProfileTitle")}",
-        "loginAccountTitle": "${msg("loginAccountTitle")}",
-        "registerTitle": "${msg("registerTitle")}",
-        "emailForgotTitle": "${msg("emailForgotTitle")}",
-        "confirmLinkIdpTitle": "${msg("confirmLinkIdpTitle")}",
-        "emailLinkIdpTitle": "${msg("emailLinkIdpTitle", idpDisplayName)}"
-      },
-      "permissions": {
-        "usernameEditDisabled": <#if usernameEditDisabled??>true<#else>false</#if>,
-        "loginWithEmailAllowed": <#if realm.loginWithEmailAllowed>true<#else>false</#if>,
-        "registrationEmailAsUsername": <#if realm.registrationEmailAsUsername>true<#else>false</#if>,
-        "rememberMe": <#if realm.rememberMe>true<#else>false</#if>,
-        "resetPasswordAllowed": <#if realm.resetPasswordAllowed>true<#else>false</#if>,
-        "password": "",
-        "registrationAllowed": <#if realm.registrationAllowed>true<#else>false</#if>,
-        "registrationDisabled": <#if registrationDisabled??>true<#else>false</#if>,
-        "passwordRequired": <#if passwordRequired??>true<#else>false</#if>
-      },
-      "labels": {
-        "firstName": "${msg("firstName")}",
-        "lastName": "${msg("lastName")}",
-        "username": "${msg("username")}",
-        "usernameOrEmail": "${msg("usernameOrEmail")}",
-        "email": "${msg("email")}",
-        "password": "${msg("password")}",
-        "passwordConfirm": "${msg("passwordConfirm")}",
-        "rememberMe": "${msg("rememberMe")}",
-        "doForgotPassword": "${msg("doForgotPassword")}",
-        "doLogIn": "${msg("doLogIn")}",
-        "doSubmit": "${msg("doSubmit")}",
-        "noAccount": "${msg("noAccount")}",
-        "doRegister": "${msg("doRegister")}",
-        "backToLogin": "${kcSanitize(msg("backToLogin"))?no_esc}",
-        "confirmLinkIdpContinue": "${msg("confirmLinkIdpContinue")}",
-        "doClickHere": "${msg("doClickHere")}"
-      },
-      "forms": {
-        "loginUsername": "",
-        "loginRememberMe": "",
-        "selectedCredential": "",
-        "registerFirstName": <#if register??>"${(register.formData.firstName!'')}"<#else>""</#if>,
-        "registerLastName": <#if register??>"${(register.formData.lastName!'')}"<#else>""</#if>,
-        "registerEmail": <#if register??>"${(register.formData.email!'')}"<#else>""</#if>,
-        "registerUsername": <#if register??>"${(register.formData.username!'')}"<#else>""</#if>
-      },
-      "user": {
-        "username": <#if user??>"${(user.username!'')}"<#else>""</#if>,
-        "email": <#if user??>"${(user.email!'')}"<#else>""</#if>,
-        "firstName": <#if user??>"${(user.firstName!'')}"<#else>""</#if>,
-        "lastName": <#if user??>"${(user.lastName!'')}"<#else>""</#if>
-      },
-      "validations": {
-        "firstName": "",
-        "lastName":  "",
-        "email": "",
-        "usernameOrPassword": "",
-        "username": "",
-        "password": "",
-        "passwordConfirm": ""
-      },
-      "message": {
-        "type": <#if displayMessage && message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>"${message.type}"<#else>""</#if>,
-        "summary": <#if displayMessage && message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>"${kcSanitize(message.summary)?no_esc}"<#else>""</#if>
-      },
-      "realm": {
-        "displayName": "${(realm.displayName!'')}"
-      },
-      "social": ""
-    }
-  </script>
+  <@env.environment loginPassword=false restartUrl=true clientBaseUrl=true formsMode="template" validationsMode="empty" messageMode="display" socialMode="emptyString" displayMessage=displayMessage emptyLoginAction=!loginAction />
   <#nested "scripts">
 </body>
 </html>
